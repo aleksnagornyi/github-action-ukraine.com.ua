@@ -10,11 +10,9 @@ jobs:
       - name: Public IP
         id: ip
         uses: haythem/public-ip@v1.2
-
-      - name: Print Public IP
+      - name: Add ip to whitelists
         run: |
-          echo ${{ steps.ip.outputs.ipv4 }}
-          echo ${{ steps.ip.outputs.ipv6 }}
+          curl -H "Content-Type: application/json" -H "Authorization: Bearer ${{ secrets.ADM_TOOLS_TOKEN }}" --request POST --data '{"account_id": "${{ secrets.ADM_TOOLS_ACCOUNT_ID }}", "ip": "${{ steps.ip.outputs.ipv4 }}"}' https://adm.tools/action/hosting/account/ssh/ip/send/
       - uses: actions/checkout@v1
       - name: multiple command
         uses: appleboy/ssh-action@master
