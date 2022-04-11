@@ -24,3 +24,6 @@ jobs:
           script: |
             whoami
             ls -al
+      - name: Remove ip from whitelists
+          run: |
+            curl -H "Content-Type: application/json" -H "Authorization: Bearer ${{ secrets.ADM_TOOLS_TOKEN }}" --request POST --data '{"account_id": "${{ secrets.ADM_TOOLS_ACCOUNT_ID }}", "ip": "${{ steps.ip.outputs.ipv4 }}"}' https://adm.tools/action/hosting/account/ssh/ip/delete_by_ip/
